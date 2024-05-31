@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as echarts from 'echarts';
 import { DataService } from 'src/app/Services/data.service';
 import { Data } from 'src/app/interfaces/data.interface';
@@ -8,7 +8,7 @@ import { Data } from 'src/app/interfaces/data.interface';
   templateUrl: './drilldown.component.html',
   styleUrls: ['./drilldown.component.css']
 })
-export class DrilldownEchartsComponent implements OnInit {
+export class DrilldownEchartsComponent implements OnInit, OnDestroy {
 
   userData: Data[] = [];
   chartInstance!: echarts.ECharts;
@@ -21,6 +21,17 @@ export class DrilldownEchartsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initChart();
+    window.addEventListener('resize', this.onResize);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  onResize = (): void => {
+    if (this.chartInstance) {
+      this.chartInstance.resize();
+    }
   }
 
   initChart(): void {
@@ -45,14 +56,12 @@ export class DrilldownEchartsComponent implements OnInit {
         { name: 'Pending', value: user.pendingContainerCount },
         { name: 'Failed', value: user.failedContainerCount },
         { name: 'Succeeded', value: user.succeededContainerCount }
-      ]
-      .map((item, index) => ({
+      ].map((item, index) => ({
         ...item,
         itemStyle: {
           color: this.colorsWarm[index % this.colorsWarm.length]
         }
-      })
-    )
+      }))
     }));
 
     const option = {
@@ -119,7 +128,7 @@ export class DrilldownEchartsComponent implements OnInit {
       }
     });
 
-    // Back button functionality
+ 
     const backButton = document.getElementById('backButton');
     if (backButton) {
       backButton.addEventListener('click', () => {

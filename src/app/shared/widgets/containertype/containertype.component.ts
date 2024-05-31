@@ -56,7 +56,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
       yAxis: [
         {
           type: 'value',
-          name: 'Total Running',
+          name: 'Total Running Containers',
           nameLocation: 'middle',
           nameTextStyle: {
             fontSize: 18,
@@ -73,7 +73,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         },
         {
           type: 'value',
-          name: 'Total Containers',
+          name: 'Total number of Containers',
           nameLocation: 'middle',
           nameTextStyle: {
             fontSize: 18,
@@ -117,7 +117,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           barWidth: '35%',
           data: this.containerTypeData.map(user => user.otherConatinercount),
           itemStyle: {
-            color: colorWithGradient('#4B0082')
+            color: colorWithGradient('#5b4073')
           },
           emphasis: {
             focus: 'series'

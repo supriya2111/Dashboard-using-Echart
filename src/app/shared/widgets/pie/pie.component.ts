@@ -1,9 +1,10 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { PieChart } from "echarts/charts";
-import { TooltipComponent, GridComponent, LegendComponent } from "echarts/components";
+import { TooltipComponent, GridComponent, LegendComponent, GraphicComponent } from "echarts/components";
 import { EChartsOption } from "echarts";
 import * as echarts from 'echarts/core';
-import { GraphicComponent } from 'echarts/components';
+import { Storage } from "src/app/interfaces/storage.interface";
+import { StorageService } from "src/app/Services/storage.service";
 
 @Component({
   selector: 'app-pie',
@@ -12,29 +13,54 @@ import { GraphicComponent } from 'echarts/components';
 })
 export class PieComponent implements OnInit, AfterViewInit {
 
+  storageData: Storage[] = [];
+  userCount: number = 10; // Default number of users to display
+
   readonly echartsExtensions: any[];
   echartsOptions: EChartsOption = {};
   chartInstance: any;
 
-  constructor() {
+  constructor(private storageService: StorageService) {
     this.echartsExtensions = [PieChart, TooltipComponent, GridComponent, LegendComponent, GraphicComponent];
+    this.storageData = this.storageService.storageData;
   }
 
   ngOnInit() {
+    this.setChartOptions(this.userCount);
+  }
+
+  ngAfterViewInit() {
+    const chartDom = document.getElementById('pieChart')!;
+    this.chartInstance = echarts.init(chartDom);
+    this.chartInstance.setOption(this.echartsOptions);
+
+    window.addEventListener('resize', () => {
+      this.chartInstance.resize();
+    });
+  }
+
+  setChartOptions(userCount: number) {
+    const data = this.storageData.slice(0, userCount).map(user => ({
+      value: user.quotaUsed,
+      name: user.username,
+      itemStyle: {
+        color: '#' + Math.floor(Math.random()*16777215).toString(16) // Generate random color
+      }
+    }));
+
     this.echartsOptions = {
       tooltip: {
         trigger: 'item',
-       // formatter: '{a} <br/>{b} : {c} ({d}%)',
         backgroundColor: '#fff',
         borderColor: '#ccc',
         borderWidth: 1,
         textStyle: {
           color: '#000'
         },
-        padding: 10
+        padding: 20
       },
       legend: {
-        bottom: 10,
+        bottom:10,
         left: 'center'
       },
       toolbox: {
@@ -44,7 +70,7 @@ export class PieComponent implements OnInit, AfterViewInit {
         {
           name: 'User Data',
           type: 'pie',
-          radius: ['20%', '80%'],
+          radius: ['30%', '80%'],
           center: ['50%', '40%'],
           roseType: 'radius',
           labelLine: {
@@ -64,30 +90,14 @@ export class PieComponent implements OnInit, AfterViewInit {
               shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
           },
-          data: [
-            { value: 40, name: 'user 1', itemStyle: { color: '#ff7f50' } },
-            { value: 38, name: 'user 2', itemStyle: { color: '#87cefa' } },
-            { value: 32, name: 'user 3', itemStyle: { color: '#da70d6' } },
-            { value: 30, name: 'user 4', itemStyle: { color: '#32cd32' } },
-            { value: 28, name: 'user 5', itemStyle: { color: '#6495ed' } },
-            { value: 26, name: 'user 6', itemStyle: { color: '#ff69b4' } },
-            { value: 22, name: 'user 7', itemStyle: { color: '#ba55d3' } },
-            { value: 18, name: 'user 8', itemStyle: { color: '#cd5c5c' } }
-          ]
+          data: data
         }
       ]
     };
   }
 
-  ngAfterViewInit() {
-    const chartDom = document.getElementById('pieChart')!;
-    this.chartInstance = echarts.init(chartDom);
+  updateChart() {
+    this.setChartOptions(this.userCount);
     this.chartInstance.setOption(this.echartsOptions);
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      this.chartInstance.resize();
-    });
   }
-
 }

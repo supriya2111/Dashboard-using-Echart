@@ -22,7 +22,8 @@ import { PieComponent } from './widgets/pie/pie.component';
 import { StackedbarComponent } from './widgets/stackedbar/stackedbar.component';
 import { DrilldownEchartsComponent } from './widgets/drilldown/drilldown.component';
 import { ContainertypeComponent } from './widgets/containertype/containertype.component';
-
+import { FormsModule } from '@angular/forms';
+import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ContainertypeComponent } from './widgets/containertype/containertype.co
      PieComponent,
      StackedbarComponent,
      DrilldownEchartsComponent,
-     ContainertypeComponent
+     ContainertypeComponent,
+     StorageUsageComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { ContainertypeComponent } from './widgets/containertype/containertype.co
     MatProgressBarModule,
     MatFormFieldModule,
     RouterModule,
-    EchartsxModule
+    EchartsxModule,
+    FormsModule
 
   ],
   exports: [
@@ -60,8 +63,8 @@ import { ContainertypeComponent } from './widgets/containertype/containertype.co
     PieComponent,
     StackedbarComponent,
     DrilldownEchartsComponent,
-    ContainertypeComponent
-    
+    ContainertypeComponent,
+    StorageUsageComponent,
   ],
   providers: [
      
