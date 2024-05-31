@@ -10,6 +10,7 @@ import { Quota } from 'src/app/interfaces/quota.interface';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  storageUsages = [1, 2, 3, 4];
 
   singleUserQuota!: Quota;
   

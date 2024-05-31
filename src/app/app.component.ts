@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Dashboard';
+
+  storageUsages = [1, 2, 3, 4];
 }
