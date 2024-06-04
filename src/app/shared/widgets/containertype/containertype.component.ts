@@ -60,7 +60,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           nameLocation: 'middle',
           nameTextStyle: {
             fontSize: 18,
-            padding: [0, 0, 16, 0],
+            padding: [0, 0, 15, 0],
           },
           position: 'left',
           alignTicks: true,

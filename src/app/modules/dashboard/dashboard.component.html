@@ -4,115 +4,113 @@
       <app-header-part></app-header-part>
     </div>
     <div class="col-12 col-sm-8 col-md-9 mb-2 mt-2">
-      <!-- <app-header-layout2></app-header-layout2> -->
       <app-storage-usage></app-storage-usage>
     </div>
   </div>
-</div>
 
-
-
- <div class="row">
-  <div class="col">
-     <!-- <app-header-layout2></app-header-layout2> -->
-     <!-- <app-layout3></app-layout3> -->
-  </div>
- </div>
- 
-
-
-<div class="row">
-  <div class="col-md-5">
-    <mat-card>
-      <h4>Storage Stats</h4>
-      <form [formGroup]="reactiveForm" (ngSubmit)="getName()" [ngClass]="formStatus">
-        <div class="row mb-3">
-          <div class="col-md-6 mt-4">
-            <label for="username">Enter name</label>
-            <span>
-              <input type="text" formControlName="username" id="username" class="form-control"
-                placeholder="Enter  name">
-            </span>
-          </div>
-          <div class="col-md-3 mt-5">
-            <input type="submit" class="btn btn-primary" value="Get Data" [disabled]="reactiveForm.invalid">
-          </div>
-        </div>
-      </form>
-
-      <div class="row">
-        <div class="col mt-5">
-          <div *ngIf="!nameEntered">
-            <app-column></app-column>
-          </div>
-          <div *ngIf="nameEntered">
-            <app-highlighted-bar></app-highlighted-bar>
-          </div>
-        </div>
-        <div class="col mb-3 mt-5 ">
-          <!-- <app-pie></app-pie>            -->
-        </div>
-      </div>
-      <hr>
-      <div class="row mb-5">
-        <div class="col ">
-          <p class="mb-3">Total Storage Quata used</p>
-          <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0"
-            aria-valuemax="100">
-            <div class="progress-bar bg-primary" style="width: 65%">65%</div>
-          </div>
-          <!-- <mat-progress-bar mode="determinate" value="40"></mat-progress-bar> -->
-        </div>
-        <div class="col">
-          <p class="mb-3">Total Pipelines Running</p>
-          <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0"
-            aria-valuemax="100">
-            <div class="progress-bar bg-warning" style="width: 50%">50%</div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <p class="mb-3">Total Containers Running</p>
-          <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0"
-            aria-valuemax="100">
-            <div class="progress-bar bg-danger" style="width: 80%">80%</div>
-          </div>
-        </div>
-        <div class="col">
-          <p class="mb-3">Total Analyasis Running Completed</p>
-          <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-            aria-valuemax="100">
-            <div class="progress-bar bg-success" style="width: 25%">25%</div>
-          </div>
-        </div>
-      </div>
-    </mat-card>
-  </div>
-
-  <div class="col-md-7 mt-1">
-    <div class="card">
-      <app-containertype></app-containertype>
-       <!-- <app-stackedbar></app-stackedbar> -->
+  <div class="row">
+    <div class="col">
+      <!-- <app-header-layout2></app-header-layout2> -->
+      <!-- <app-layout3></app-layout3> -->
     </div>
   </div>
 
-</div>
+  <div class="row">
+    <!-- <div class="col-md-6">
+      <mat-card>
+        <h4>Storage Stats</h4>
+        <form [formGroup]="reactiveForm" (ngSubmit)="getName()" [ngClass]="formStatus">
+          <div class="row mb-3">
+            <div class="col-md-6 mt-4">
+              <label for="username">Enter name</label>
+              <span>
+                <input type="text" formControlName="username" id="username" class="form-control" placeholder="Enter name">
+              </span>
+            </div>
+            <div class="col-md-3 mt-5">
+              <input type="submit" class="btn btn-primary" value="Get Data" [disabled]="reactiveForm.invalid">
+            </div>
+          </div>
+        </form>
 
-<br>
+        <div class="row">
+          <div class="col mt-5">
+            <div *ngIf="!nameEntered">
+              <app-column></app-column>
+            </div>
+            <div *ngIf="nameEntered">
+              <app-highlighted-bar></app-highlighted-bar>
+            </div>
+          </div>
+          <div class="col mb-3 mt-5 ">
+            <app-pie></app-pie>
+          </div>
+        </div>
+        <hr>
+        <div class="row mb-5">
+          <div class="col">
+            <p class="mb-3">Total Storage Quota used</p>
+            <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-primary" style="width: 65%">65%</div>
+            </div>
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          </div>
+          <div class="col">
+            <p class="mb-3">Total Pipelines Running</p>
+            <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-warning" style="width: 50%">50%</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p class="mb-3">Total Containers Running</p>
+            <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-danger" style="width: 80%">80%</div>
+            </div>
+          </div>
+          <div class="col">
+            <p class="mb-3">Total Analysis Running Completed</p>
+            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 25%">25%</div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <mat-card>
-      <app-drilldown></app-drilldown>
-    </mat-card>
+    <div class="col-md-6 mt-1">
+      <div class="card">
+        <app-containertype></app-containertype>
+        <app-stackedbar></app-stackedbar>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-md-5 mt-2">
+      <div class="card">
+        <app-drilldown></app-drilldown>
+      </div>
+    </div>
+    <div class="col-md-7 mt-2">
+      <div class="card">
+        <app-containertype></app-containertype>
+      </div>
+    </div>
   </div>
-  <div class="col-md-6 mt-2">
-    <mat-card class="custom-height-card">
-      <h5>Storage Quota per User</h5>
-      <app-pie></app-pie>
-      <!-- <app-containertype></app-containertype> -->
-    </mat-card>
-  </div>
 
+  <div class="row mt-5">
+    <div class="col-md-6 mt-2">
+      <div class="card">
+        <!-- <app-horizontal-bar></app-horizontal-bar>       -->
+      </div>
+    </div>
+    <div class="col-md-6 mt-2">
+      <div class="card">
+        <h5>Storage Quota per User</h5>
+        <app-pie></app-pie>
+      </div>
+    </div>
+  </div>
 </div>

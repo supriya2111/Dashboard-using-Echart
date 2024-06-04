@@ -1,7 +1,10 @@
 .card{
-    transition: all 1s ease-in-out;
     border: none;
-}
+    border-radius: 5px;
+    color:white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in-out;
+  }
 
 .background {
     background-color:  transparent;

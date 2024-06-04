@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.component';
 import { HeaderLayout2Component } from './widgets/header-layout2/header-layout2.component';
 import { Layout3Component } from './widgets/layout3/layout3.component';
+import { HorizontalBarComponent } from './widgets/horizontal-bar/horizontal-bar.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { Layout3Component } from './widgets/layout3/layout3.component';
      StorageUsageComponent,
      HeaderLayout2Component,
      Layout3Component,
+     HorizontalBarComponent,
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,8 @@ import { Layout3Component } from './widgets/layout3/layout3.component';
     ContainertypeComponent,
     StorageUsageComponent,
     HeaderLayout2Component,
-    Layout3Component
+    Layout3Component,
+    HorizontalBarComponent
   ],
   providers: [
      
