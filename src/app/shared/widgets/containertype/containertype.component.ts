@@ -108,6 +108,11 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           'Total Containers'
         ],
         bottom: 12,
+        nameTextStyle: {
+          fontSize: 18,
+          padding: [25, 0, 0, 0],
+          color: 'black'
+        }
       },
       series: [
         {
@@ -157,7 +162,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           barWidth: '25%', 
           data: this.containerTypeData.map(user => user.GuiConatinercount),
           itemStyle: {
-            color: colorWithGradient('#0ccc73') 
+            color: colorWithGradient('#71f075') 
           
           },
           emphasis: {
@@ -184,7 +189,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           barWidth: '25%',
           data: this.containerTypeData.map(user => user.blastConatinercount),
           itemStyle: {
-            color: colorWithGradient('#32e6e6') 
+            color: colorWithGradient('#2bc9dc') 
           },
           emphasis: {
             focus: 'series'
@@ -277,11 +282,11 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           }
         }
       ],
-      // media: [
-      //   {
-      //     query: {
-      //       maxWidth: 500
-      //     },
+      media: [
+        {
+          query: {
+            maxWidth: 500
+          },
       //     option: {
       //       grid: {
       //         left: '10%',
@@ -290,9 +295,9 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
       //         top: '10%',
       //         containLabel: true
       //       },
-      //       legend: {
-      //         show: false
-      //       },
+            legend: {
+              show: false
+            },
       //       yAxis: [
       //         {
       //           nameTextStyle: {
@@ -308,8 +313,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
       //         },
       //       ]
       //     }
-      //   }
-      // ]
+        }
+      ]
     };
   }
 
