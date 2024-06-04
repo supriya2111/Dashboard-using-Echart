@@ -14,7 +14,7 @@ import { StorageService } from "src/app/Services/storage.service";
 export class PieComponent implements OnInit, AfterViewInit {
 
   storageData: Storage[] = [];
-  userCount: number = 10; // Default number of users to display
+  userCount: number = 10; 
 
   readonly echartsExtensions: any[];
   echartsOptions: EChartsOption = {};

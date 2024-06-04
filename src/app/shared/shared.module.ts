@@ -24,6 +24,8 @@ import { DrilldownEchartsComponent } from './widgets/drilldown/drilldown.compone
 import { ContainertypeComponent } from './widgets/containertype/containertype.component';
 import { FormsModule } from '@angular/forms';
 import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.component';
+import { HeaderLayout2Component } from './widgets/header-layout2/header-layout2.component';
+import { Layout3Component } from './widgets/layout3/layout3.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.com
      DrilldownEchartsComponent,
      ContainertypeComponent,
      StorageUsageComponent,
+     HeaderLayout2Component,
+     Layout3Component,
   ],
   imports: [
     CommonModule,
@@ -52,7 +56,8 @@ import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.com
     MatFormFieldModule,
     RouterModule,
     EchartsxModule,
-    FormsModule
+    FormsModule,
+  
 
   ],
   exports: [
@@ -65,6 +70,8 @@ import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.com
     DrilldownEchartsComponent,
     ContainertypeComponent,
     StorageUsageComponent,
+    HeaderLayout2Component,
+    Layout3Component
   ],
   providers: [
      

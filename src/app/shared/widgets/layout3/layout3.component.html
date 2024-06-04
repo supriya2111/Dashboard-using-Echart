@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row ">
+    <div class="col-md-4 col-lg-2 col-6 mb-4 " *ngFor="let stat of stats">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">{{ stat.title }}</h2>
+          <h3 class="card-value">{{ stat.value }}</h3>
+          <div class="progress" [ngClass]="stat.colorClass">
+            <span class="progress-left">
+              <span class="progress-bar" [ngStyle]="{'border-color': stat.color, 'animation': getLeftAnimation(stat.percentage)}"></span>
+            </span>
+            <span class="progress-right">
+              <span class="progress-bar" [ngStyle]="{'border-color': stat.color, 'animation': getRightAnimation(stat.percentage)}"></span>
+            </span>
+            <div class="progress-value">
+              <i [ngClass]="stat.icon"></i>
+            </div>
+          </div>
+          <div class="stat-details mt-3">
+            <p>{{ stat.status }}</p>
+            <p>{{ stat.change }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

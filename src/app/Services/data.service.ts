@@ -81,7 +81,25 @@ export class DataService {
           pendingContainerCount: 0,
           failedContainerCount: 4,
           succeededContainerCount: 3
-      }
+      },
+      {
+        userName: "user9",
+        totalContainerCount: 4,
+        runningContainerCount: 7,
+        completedContainerCount: 0,
+        pendingContainerCount: 0,
+        failedContainerCount: 0,
+        succeededContainerCount: 8
+    },
+    {
+        userName: "user10",
+        totalContainerCount: 6,
+        runningContainerCount: 1,
+        completedContainerCount: 3,
+        pendingContainerCount: 0,
+        failedContainerCount: 2,
+        succeededContainerCount: 5
+    }
   ]
   
 }

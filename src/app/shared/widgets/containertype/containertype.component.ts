@@ -60,7 +60,7 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           nameLocation: 'middle',
           nameTextStyle: {
             fontSize: 18,
-            padding: [0, 0, 15, 0],
+            padding: [0, 0, 16, 0],
           },
           position: 'left',
           alignTicks: true,
@@ -107,17 +107,18 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           'Failed',
           'Total Containers'
         ],
-        bottom: -9,
+        bottom: 12,
       },
       series: [
         {
           name: 'Others',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%',
+          barWidth: '25%',
           data: this.containerTypeData.map(user => user.otherConatinercount),
           itemStyle: {
-            color: colorWithGradient('#5b4073')
+            color: colorWithGradient('#1e45b0'),
+            barBorderRadius: [0, 0, 18, 18]
           },
           emphasis: {
             focus: 'series'
@@ -127,10 +128,10 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           name: 'Container',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%',
+          barWidth: '25%',
           data: this.containerTypeData.map(user => user.ContainerConatinercount),
           itemStyle: {
-            color: colorWithGradient('#8b62a3') 
+            color: colorWithGradient('#4b78f2')
           },
           emphasis: {
             focus: 'series'
@@ -140,10 +141,10 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           name: 'Notebook',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%', 
+          barWidth: '25%', 
           data: this.containerTypeData.map(user => user.NotebookConatinercount),
           itemStyle: {
-            color: colorWithGradient('#ad97c9') 
+            color: colorWithGradient('#16c916') 
           },
           emphasis: {
             focus: 'series'
@@ -153,10 +154,11 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           name: 'GUI',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%', 
+          barWidth: '25%', 
           data: this.containerTypeData.map(user => user.GuiConatinercount),
           itemStyle: {
-            color: colorWithGradient('#c99de3') 
+            color: colorWithGradient('#0ccc73') 
+          
           },
           emphasis: {
             focus: 'series'
@@ -166,10 +168,10 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           name: 'Code',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%', 
+          barWidth: '25%', 
           data: this.containerTypeData.map(user => user.CodeConatinercount),
           itemStyle: {
-            color: colorWithGradient('#dbc0eb') 
+            color: colorWithGradient('#069ea1') 
           },
           emphasis: {
             focus: 'series'
@@ -179,10 +181,10 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           name: 'Blast',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%',
+          barWidth: '25%',
           data: this.containerTypeData.map(user => user.blastConatinercount),
           itemStyle: {
-            color: colorWithGradient('#D8BFD8') 
+            color: colorWithGradient('#32e6e6') 
           },
           emphasis: {
             focus: 'series'
@@ -192,10 +194,11 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           name: 'Total Running',
           type: 'bar',
           stack: 'total',
-          barWidth: '35%', 
+          barWidth: '25%', 
           data: this.containerTypeData.map(user => user.totalRunningcontainer),
           itemStyle: {
-            color: colorWithGradient('#E6E6FA')
+            color: colorWithGradient('#89e0e8'),
+            barBorderRadius: [18, 18, 0, 0]
           },
           emphasis: {
             focus: 'series'
@@ -273,7 +276,40 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
             focus: 'series'
           }
         }
-      ]
+      ],
+      // media: [
+      //   {
+      //     query: {
+      //       maxWidth: 500
+      //     },
+      //     option: {
+      //       grid: {
+      //         left: '10%',
+      //         right: '10%',
+      //         bottom: '20%',
+      //         top: '10%',
+      //         containLabel: true
+      //       },
+      //       legend: {
+      //         show: false
+      //       },
+      //       yAxis: [
+      //         {
+      //           nameTextStyle: {
+      //             fontSize: 12,
+      //             padding: [0, 0, 10, 0],
+      //           },
+      //         },
+      //         {
+      //           nameTextStyle: {
+      //             fontSize: 12,
+      //             padding: [10, 0, 0, 0],
+      //           },
+      //         },
+      //       ]
+      //     }
+      //   }
+      // ]
     };
   }
 

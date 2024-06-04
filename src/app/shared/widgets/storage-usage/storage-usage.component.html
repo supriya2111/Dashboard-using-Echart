@@ -1,86 +1,69 @@
-<div class="container-fluid ">
+<div class="container-fluid mt-3">
   <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-1">
-      <div class="card  mb-3">
-        <div class="card-header d-flex pt-2">
-          <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-warning mt-n4 position-absolute">
+      <div class="card card1 mb-3">
+        <div class="card-header d-flex pt-1">
+          <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-info mt-n4 position-absolute">
             <i class="material-icons opacity-10">storage</i>
+            <!-- <i class="fas fa-database"></i> -->
           </div>
           <div class="ms-5 text-end">
-            <h3 class="card-title">Used Space</h3>
-            <p class="card-text"><b>{{ usedSpace }} / {{ totalSpace }} GB</b></p>
+            <h4 class="card-title">Storage</h4>
           </div>
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
-          <div *ngIf="isWarning()" role="alert">
-            ⚠️ Get More Space...
-          </div>
+          <h4 class="card-text number">{{ usedSpace }} / {{ totalSpace }} GB</h4>
         </div>
       </div>
     </div>
-
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-1">
-      <div class="card  mb-3">
-        <div class="card-header d-flex pt-2 ">
-          <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-success mt-n4 position-absolute">
+      <div class="card card2 mb-3">
+        <div class="card-header d-flex pt-1">
+          <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-primary mt-n4 position-absolute">
             <i class="material-icons opacity-10">group</i>
           </div>
           <div class="ms-5 text-end">
-            <h3 class="card-title">Users</h3>
-            <p class="card-text"><b>50</b></p>
+            <h4 class="card-title">Users</h4>
           </div>
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
-          <div *ngIf="isWarning()" role="alert">
-             See users..
-          </div>
+          <h4 class="card-text number">Total Users: 50</h4>
         </div>
       </div>
     </div>
-
-     
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-1">
-      <div class="card mb-3">
-        <div class="card-header  d-flex pt-2">
-          <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-primary mt-n4 position-absolute">
+      <div class="card card3 mb-3">
+        <div class="card-header d-flex pt-1">
+          <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-warning mt-n4 position-absolute">
             <i class="material-icons opacity-10">memory</i>
           </div>
           <div class="ms-5 text-end">
-            <h3 class="card-title">CPU Utilization</h3>
-            <p class="card-text"><b>49%</b></p>
+            <h4 class="card-title">CPU Utilization</h4>
           </div>
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
-          <div *ngIf="isWarning()" role="alert">
-            ⚠️ Get More Space...
-          </div>
+          <h4 class="card-text number">Total Usage: 49%</h4>
         </div>
       </div>
     </div>
-
-     
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-1">
-      <div class="card">
-        <div class="card-header d-flex pt-2">
+      <div class="card card4 mb-3">
+        <div class="card-header d-flex pt-1">
           <div class="icon icon-lg icon-shape shadow-dark text-center bg-gradient-danger mt-n4 position-absolute">
             <i class="material-icons opacity-10">grid_view</i>
           </div>
           <div class="ms-5 text-end">
-            <h3 class="card-title">Containers</h3>
-            <p class="card-text"><b>45</b></p>
+            <h4 class="card-title">Containers</h4>
           </div>
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-3">
-          <div *ngIf="isWarning()" role="alert">
-            ⚠️ Get More Space...
-          </div>
+          <h4 class="card-text number">No of containers: 45</h4>
         </div>
       </div>
     </div>
-   
   </div>
 </div>

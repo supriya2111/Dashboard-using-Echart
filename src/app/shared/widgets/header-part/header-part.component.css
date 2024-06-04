@@ -1,0 +1,12 @@
+.card{
+    transition: all 1s ease-in-out;
+    border: none;
+}
+
+.background {
+    background-color:  transparent;
+    background: linear-gradient(135deg, #fce4ec 50%, white 50%);   
+    color: #d81b60;
+    border-radius: 8px; 
+    overflow: hidden; 
+}

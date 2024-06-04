@@ -59,7 +59,7 @@ export class ColumnComponent implements OnInit {
             value: value,
             itemStyle: {
               color: this.getColor(index),
-              barBorderRadius: [18, 18, 0, 0]
+              barBorderRadius: [18, 18, 10, 10]
             }
           })),
           type: 'bar'

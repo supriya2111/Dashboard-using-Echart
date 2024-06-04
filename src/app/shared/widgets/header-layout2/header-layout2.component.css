@@ -1,0 +1,32 @@
+/* src/app/dashboard/dashboard.component.css */
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 0px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .card .info h5 {
+    font-size: 1.2rem;
+    /* margin-bottom: 5px; */
+    color: inherit; 
+  }
+  
+  .card .info .number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: inherit; 
+  }
+  

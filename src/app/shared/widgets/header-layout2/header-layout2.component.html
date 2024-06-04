@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row text-center mt-3">
+    <div class="col-md-4 col-lg-2 col-6 mb-4" *ngFor="let card of cards">
+      <div class="card pt-2  shadow-sm" [ngStyle]="{'background-color': card.backgroundColor, 'color': card.color}">
+        <div class="icon"><i [class]="card.icon"></i></div>
+        <div class="info">
+          <h5>{{ card.title }}</h5>
+          <p class="number">{{ card.value }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
