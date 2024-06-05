@@ -1,1 +1,68 @@
-<p>table-comp works!</p>
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <h4>Storage Stats</h4>
+      <form [formGroup]="reactiveForm" (ngSubmit)="getName()" [ngClass]="formStatus">
+        <div class="row mb-3">
+          <div class="col-md-6 mt-4">
+            <label for="username">Enter name</label>
+            <span>
+              <input type="text" formControlName="username" id="username" class="form-control"
+                placeholder="Enter name">
+            </span>
+          </div>
+          <div class="col-md-3 mt-5">
+            <input type="submit" class="btn btn-primary" value="Get Data" [disabled]="reactiveForm.invalid">
+          </div>
+        </div>
+      </form>
+  
+      <div class="row">
+        <div class="col mt-5">
+          <div *ngIf="!nameEntered">
+            <app-column></app-column>
+          </div>
+          <div *ngIf="nameEntered">
+            <app-highlighted-bar></app-highlighted-bar>
+        </div>
+        </div>
+        <div class="col mb-3 mt-5">
+          
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-5">
+        <div class="col">
+          <p class="mb-3">Total Storage Quota used</p>
+          <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar bg-primary" style="width: 65%">65%</div>
+          </div>
+        </div>
+        <div class="col">
+          <p class="mb-3">Total Pipelines Running</p>
+          <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar bg-warning" style="width: 50%">50%</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="mb-3">Total Containers Running</p>
+          <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar bg-danger" style="width: 80%">80%</div>
+          </div>
+        </div>
+        <div class="col">
+          <p class="mb-3">Total Analysis Running Completed</p>
+          <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar bg-success" style="width: 25%">25%</div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

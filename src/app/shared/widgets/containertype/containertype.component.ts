@@ -43,15 +43,19 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         }
       },
       grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '8%',
-        top: '3%',
+        left: '5%',
+        right: '7%',
+        bottom: '3%',
+        top: '15%',
         containLabel: true
       },
       xAxis: {
         type: 'category',
         data: this.usernames,
+        axisLabel: {
+          fontSize: 16, 
+          color: 'black' 
+        }
       },
       yAxis: [
         {
@@ -91,29 +95,71 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           },
         },
       ],
-      legend: {
+      legend: [{
         data: [
-          'Total Running', 
-          'Blast', 
-          'GUI', 
-          'Notebook',    
+          'Total Running',
+          'Blast',
+          'GUI',
+          
+        ],
+        orient: 'vertical',
+        align: 'auto',
+        right: '5%',
+        top: '2%',
+        itemStyle: {
+          fontSize: 28,
+          padding: [25, 0, 0, 0],
+        }
+      },
+      {
+        data: [
+
+          'Notebook',
           'Code',
           'Container',
           'Others',
+        ],
+        orient: 'vertical',
+        align: 'auto',
+        right: '20%',
+        top: '2%',
+        itemStyle: {
+          fontSize: 18,
+          padding: [25, 0, 0, 0],
+          fontWeight:'bolder'
+        }
+      },
+      {
+        data: [
+          
           'Succeeded',
           'Pending',
           'Running',
+        ],
+        orient: 'vertical',
+        align: 'auto',
+        right: '35%',
+        top: '2%',
+        itemStyle: {
+          fontSize: 18,
+          padding: [25, 0, 0, 0],
+        }
+      },{
+        data: [
           'Completed',
           'Failed',
           'Total Containers'
         ],
-        bottom: 12,
-        nameTextStyle: {
+        orient: 'vertical',
+        align: 'auto',
+        right: '50%',
+        top: '2%',
+        itemStyle: {
           fontSize: 18,
           padding: [25, 0, 0, 0],
-          color: 'black'
         }
-      },
+      }],
+     
       series: [
         {
           name: 'Others',

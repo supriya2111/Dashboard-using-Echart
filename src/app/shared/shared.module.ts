@@ -22,11 +22,11 @@ import { PieComponent } from './widgets/pie/pie.component';
 import { StackedbarComponent } from './widgets/stackedbar/stackedbar.component';
 import { DrilldownEchartsComponent } from './widgets/drilldown/drilldown.component';
 import { ContainertypeComponent } from './widgets/containertype/containertype.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StorageUsageComponent } from './widgets/storage-usage/storage-usage.component';
 import { HeaderLayout2Component } from './widgets/header-layout2/header-layout2.component';
 import { Layout3Component } from './widgets/layout3/layout3.component';
-import { HorizontalBarComponent } from './widgets/horizontal-bar/horizontal-bar.component';
+import { MapComponent } from './widgets/map/map.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { HorizontalBarComponent } from './widgets/horizontal-bar/horizontal-bar.
      StorageUsageComponent,
      HeaderLayout2Component,
      Layout3Component,
-     HorizontalBarComponent,
+     MapComponent,
   ],
   imports: [
     CommonModule,
@@ -59,7 +59,7 @@ import { HorizontalBarComponent } from './widgets/horizontal-bar/horizontal-bar.
     RouterModule,
     EchartsxModule,
     FormsModule,
-  
+    ReactiveFormsModule
 
   ],
   exports: [
@@ -74,7 +74,7 @@ import { HorizontalBarComponent } from './widgets/horizontal-bar/horizontal-bar.
     StorageUsageComponent,
     HeaderLayout2Component,
     Layout3Component,
-    HorizontalBarComponent
+    MapComponent
   ],
   providers: [
      
