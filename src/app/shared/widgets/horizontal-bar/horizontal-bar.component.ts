@@ -22,15 +22,14 @@ export class HorizontalBarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // Assign data from the service
+   
     this.containerTypeStatusData = this.containerTypeStatusService.containerTypeStatusData;
 
-    // Extract types, running counts, and pending counts
+    
     const types = this.containerTypeStatusData.map(item => item.type);
     const runningCounts = this.containerTypeStatusData.map(item => item.runningContainerCount);
     const pendingCounts = this.containerTypeStatusData.map(item => item.pendingContainerCount);
 
-    // Set the chart options with the extracted data
     this.echartsOptions = {
       title: {
         text: 'Container Status'
@@ -68,7 +67,6 @@ export class HorizontalBarComponent implements OnInit, AfterViewInit {
               lineHeight: 30,
               align: 'center'
             },
-            // Custom styles for each type if needed
           }
         }
       },
