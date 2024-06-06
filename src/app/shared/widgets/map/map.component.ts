@@ -1,28 +1,41 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { MapChart } from 'echarts/charts';
-import { TooltipComponent, LegendComponent, VisualMapComponent } from 'echarts/components';
+import { TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { registerMap } from 'echarts/core';
 import indiaJson from '../../../../assets/in.json';
-import mahaJson from '../../../../assets/maharashtra_districts.json'
+import mahaJson from '../../../../assets/maharashtra_districts.json';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly echartsExtensions: any[];
   echartsOptions: any = {};
   chartInstance: any;
 
   constructor() {
-    this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent];
+    this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent];
   }
 
   ngOnInit() {
     registerMap('India', indiaJson as any);
+
+    const cityData = [
+      { name: 'Mumbai', value: [72.8777, 19.0760] },
+      { name: 'Delhi', value: [77.1025, 28.7041] },
+      { name: 'Bangalore', value: [77.5946, 12.9716] },
+      { name: 'Hyderabad', value: [78.4867, 17.3850] },
+      { name: 'Ahmedabad', value: [72.5714, 23.0225] },
+      { name: 'Chennai', value: [80.2707, 13.0827] },
+      { name: 'Kolkata', value: [88.3639, 22.5726] },
+      { name: 'Pune', value: [73.8567, 18.5204] },
+      { name: 'Jaipur', value: [75.7873, 26.9124] },
+      { name: 'Lucknow', value: [80.9462, 26.8467] }
+    ];
 
     this.echartsOptions = {
       title: {
@@ -34,13 +47,6 @@ export class MapComponent implements OnInit {
         },
         padding: [50, 90, 10, 20]
      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '8%',
-        top: '3%',
-        containLabel: true
-      },
       tooltip: {
         trigger: 'item',
         showDelay: 0,
@@ -51,35 +57,57 @@ export class MapComponent implements OnInit {
         left: 'left',
         min: 3000000,
         max: 200000000,
+        seriesIndex: [0],
+        realtime: true,
+        itemWidth: 20,
+        itemHeight: 250,
+        padding: [0, 0, 50, 100],
         inRange: {
           color: [
-            '#313695',
-            '#4575b4',
-            '#74add1',
-            '#abd9e9',
-            '#e0f3f8',
-            '#ffffbf',
-            '#fee090',
-            '#fdae61',
-            '#f46d43',
-            '#d73027',
-            '#a50026'
+            '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf',
+            '#fee090', '#fdae61'
           ]
         },
         text: ['High', 'Low'],
         calculable: true
+      },
+      geo: {
+        map: 'India',
+        roam:true,
+        zoom: 1.2,
+        label: {
+          show: true,
+          color: 'black'
+        },
+        emphasis: {
+          label: {
+            show: true
+          }
+        },
+        itemStyle: {
+          normal: {
+            areaColor: '#f3f3f3',
+            borderColor: '#999'
+          },
+          emphasis: {
+            areaColor: '#f3f3f3'
+          }
+        }
       },
       series: [
         {
           name: 'Population',
           type: 'map',
           map: 'India',
-          roam: true,
-          zoom: 1.2,
+          geoIndex: 0,
           emphasis: {
             label: {
               show: true,
             }
+          },
+          label: {
+            show: true,
+            color: 'black'
           },
           data: [
             { name: 'Uttar Pradesh', value: 199812341 },
@@ -111,6 +139,28 @@ export class MapComponent implements OnInit {
             { name: 'Mizoram', value: 1097206 },
             { name: 'Sikkim', value: 610577 }
           ]
+        },
+        {
+          name: 'Cities',
+          type: 'scatter',
+          coordinateSystem: 'geo',
+          data: cityData,
+          symbol: 'pin', 
+          symbolSize: 40,
+          itemStyle: {
+            color: 'red'  
+          },
+          label: {
+            formatter: '{b}',
+            position: 'left',
+            color: 'red',
+            show: true 
+          },
+          emphasis: {
+            label: {
+              show: true
+            }
+          }
         }
       ]
     };

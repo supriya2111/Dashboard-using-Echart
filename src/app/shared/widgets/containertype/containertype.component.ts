@@ -103,6 +103,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           
         ],
         orient: 'vertical',
+        animation:true,
+        animationDurationUpdate :800,
         align: 'auto',
         right: '5%',
         top: '2%',
@@ -121,6 +123,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         ],
         orient: 'vertical',
         align: 'auto',
+        animation:true,
+        animationDurationUpdate :800,
         right: '20%',
         top: '2%',
         itemStyle: {
@@ -138,6 +142,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         ],
         orient: 'vertical',
         align: 'auto',
+        animation:true,
+        animationDurationUpdate :800,
         right: '35%',
         top: '2%',
         itemStyle: {
@@ -152,6 +158,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         ],
         orient: 'vertical',
         align: 'auto',
+        animation:true,
+        animationDurationUpdate :800,
         right: '50%',
         top: '2%',
         itemStyle: {
@@ -258,10 +266,11 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         {
           name: 'Total Containers',
           type: 'line',
-          yAxisIndex: 1, // Use second y-axis
+          smooth:true,
+          yAxisIndex: 1, 
           data: this.userdata.map(user => user['totalContainerCount']),
           itemStyle: {
-            color: 'hotpink' // Lavender
+            color: 'hotpink' 
           },
           emphasis: {
             focus: 'series'
@@ -270,10 +279,11 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         {
           name: 'Running',
           type: 'line',
-          yAxisIndex: 1, // Use second y-axis
+          smooth:true,
+          yAxisIndex: 1, 
           data: this.userdata.map(user => user['runningContainerCount']),
           itemStyle: {
-            color: 'purple' // Thistle
+            color: 'purple' 
           },
           emphasis: {
             focus: 'series'
@@ -282,7 +292,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         {
           name: 'Completed',
           type: 'line',
-          yAxisIndex: 1, // Use second y-axis
+          smooth:true,
+          yAxisIndex: 1, 
           data: this.userdata.map(user => user['completedContainerCount']),
           itemStyle: {
             color: '#0fccf2' 
@@ -294,7 +305,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         {
           name: 'Pending',
           type: 'line',
-          yAxisIndex: 1, // Use second y-axis
+          smooth:true,
+          yAxisIndex: 1, 
           data: this.userdata.map(user => user['pendingContainerCount']),
           itemStyle: {
             color: 'blue' 
@@ -306,7 +318,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         {
           name: 'Failed',
           type: 'line',
-          yAxisIndex: 1, // Use second y-axis
+          smooth:true,
+          yAxisIndex: 1,
           data: this.userdata.map(user => user['failedContainerCount']),
           itemStyle: {
             color: 'green' 
@@ -318,7 +331,8 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
         {
           name: 'Succeeded',
           type: 'line',
-          yAxisIndex: 1, // Use second y-axis
+          smooth:true,
+          yAxisIndex: 1, 
           data: this.userdata.map(user => user['succeededContainerCount']),
           itemStyle: {
             color: 'red' 
@@ -328,39 +342,6 @@ export class ContainertypeComponent implements OnInit, AfterViewInit {
           }
         }
       ],
-      media: [
-        {
-          query: {
-            maxWidth: 500
-          },
-      //     option: {
-      //       grid: {
-      //         left: '10%',
-      //         right: '10%',
-      //         bottom: '20%',
-      //         top: '10%',
-      //         containLabel: true
-      //       },
-            legend: {
-              show: false
-            },
-      //       yAxis: [
-      //         {
-      //           nameTextStyle: {
-      //             fontSize: 12,
-      //             padding: [0, 0, 10, 0],
-      //           },
-      //         },
-      //         {
-      //           nameTextStyle: {
-      //             fontSize: 12,
-      //             padding: [10, 0, 0, 0],
-      //           },
-      //         },
-      //       ]
-      //     }
-        }
-      ]
     };
   }
 
