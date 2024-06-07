@@ -5,7 +5,7 @@ import * as echarts from 'echarts/core';
 import { registerMap } from 'echarts/core';
 import indiaJson from '../../../../assets/in.json';
 import mahaJson from '../../../../assets/maharashtra_districts.json';
-import { MapData } from 'src/app/interfaces/mapData';
+import { MapData } from 'src/app/interfaces/mapData.interface';
 import { MapdataService } from 'src/app/Services/mapdata.service';
 import { CityService } from 'src/app/Services/city.service';
 import { UsersService } from 'src/app/Services/users.service';
@@ -22,34 +22,47 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   chartInstance: any;
   mapData: MapData[] = [];
 
-  constructor(private mapService: MapdataService,private cityService:CityService,private userService:UsersService) {
+  constructor(private mapService: MapdataService, private cityService: CityService, private userService: UsersService) {
     this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent];
   }
 
   stateData: { name: string, value: number }[] = [];
-  cityData:{name:string, value: number[]}[]=[];
-  loggedInUserData:{name:string,city:string}[]=[];
+  cityData: {name: string, value: number[], itemStyle: { color: string }}[] = [];
+  loggedInUserData: { name: string, value: number[] }[] = [];
 
   ngOnInit() {
     this.mapData = this.mapService.mapData;
     this.stateData = this.mapData.map(state => ({
       name: state.name,
-      value: state.value
+      value: state.population
     }));
 
-    this.cityData=this.cityService.cityData.map(city => ({
-      name:city.name,
-      value:city.value
-    }))
+    const cityUserCounts = this.userService.loginUsers.reduce((acc: any, user) => {
+      const city = user.city;
+      if (!acc[city]) {
+        acc[city] = {
+          name: city,
+          count: 0,
+          coordinates: user.coordinates
+        };
+      }
+      acc[city].count++;
+      return acc;
+    }, {});
 
-    this.loggedInUserData=this.userService.loginUsers.map(user => ({
-      name:user.name,
-      city:user.city
-    }))
+    this.cityData = Object.values(cityUserCounts).map((cityInfo: any) => ({
+      name: cityInfo.name,
+      value: [...cityInfo.coordinates, cityInfo.count],
+      itemStyle: { color: cityInfo.count > 5 ? 'blue' : 'red' },
+    }));
+
+    this.loggedInUserData = this.userService.loginUsers.map(user => ({
+      name: user.name,
+      value: user.coordinates
+    }));
 
     registerMap('India', indiaJson as any);
 
-  
     this.echartsOptions = {
       title: {
         text: 'India Population Estimates',
@@ -64,7 +77,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         trigger: 'item',
         showDelay: 0,
         transitionDuration: 0.2,
-        formatter: '{b}: {c}'
+        formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`,
+        itemStyle: {
+          color: 'black',
+          fontWidth: 'bold'
+        }
       },
       visualMap: {
         left: 'left',
@@ -77,8 +94,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         padding: [0, 0, 50, 100],
         inRange: {
           color: [
-            '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf',
-            '#fee090', '#fdae61'
+            '#4575b4',
+            '#74add1',
+            '#abd9e9',
+            '#e0f3f8',
+            '#ffffbf',
+            '#fee090',
+            '#fdae61',
           ]
         },
         text: ['High', 'Low'],
@@ -88,10 +110,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         map: 'India',
         roam: true,
         zoom: 1.2,
-        label: {
-          show: true,
-          color: 'black'
-        },
         emphasis: {
           label: {
             show: true
@@ -130,12 +148,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           coordinateSystem: 'geo',
           data: this.cityData,
           symbol: 'pin',
-          symbolSize: 40,
-          itemStyle: {
-            color: 'red'
-          },
+          symbolSize: 50,
           label: {
-            formatter: '{b}',
+            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
             position: 'left',
             color: 'red',
             show: true
@@ -184,10 +199,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             name: 'Cities',
             type: 'scatter',
             coordinateSystem: 'geo',
-            data: [
-              { name: 'Andheri', value: [72.8362, 19.1197] },
-              { name: 'Borivali', value: [72.8604, 19.2297] }
-            ],
+            data: this.loggedInUserData,
             symbol: 'pin',
             symbolSize: 40,
             itemStyle: {
@@ -217,11 +229,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             data: this.cityData,
             symbol: 'pin',
             symbolSize: 40,
-            itemStyle: {
-              color: 'red'
-            },
             label: {
-              formatter: '{b}',
+              formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
               position: 'left',
               color: 'red',
               show: true
