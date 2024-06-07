@@ -5,6 +5,10 @@ import * as echarts from 'echarts/core';
 import { registerMap } from 'echarts/core';
 import indiaJson from '../../../../assets/in.json';
 import mahaJson from '../../../../assets/maharashtra_districts.json';
+import { MapData } from 'src/app/interfaces/mapData';
+import { MapdataService } from 'src/app/Services/mapdata.service';
+import { CityService } from 'src/app/Services/city.service';
+import { UsersService } from 'src/app/Services/users.service';
 
 @Component({
   selector: 'app-map',
@@ -16,27 +20,36 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly echartsExtensions: any[];
   echartsOptions: any = {};
   chartInstance: any;
+  mapData: MapData[] = [];
 
-  constructor() {
+  constructor(private mapService: MapdataService,private cityService:CityService,private userService:UsersService) {
     this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent];
   }
 
+  stateData: { name: string, value: number }[] = [];
+  cityData:{name:string, value: number[]}[]=[];
+  loggedInUserData:{name:string,city:string}[]=[];
+
   ngOnInit() {
+    this.mapData = this.mapService.mapData;
+    this.stateData = this.mapData.map(state => ({
+      name: state.name,
+      value: state.value
+    }));
+
+    this.cityData=this.cityService.cityData.map(city => ({
+      name:city.name,
+      value:city.value
+    }))
+
+    this.loggedInUserData=this.userService.loginUsers.map(user => ({
+      name:user.name,
+      city:user.city
+    }))
+
     registerMap('India', indiaJson as any);
 
-    const cityData = [
-      { name: 'Mumbai', value: [72.8777, 19.0760] },
-      { name: 'Delhi', value: [77.1025, 28.7041] },
-      { name: 'Bangalore', value: [77.5946, 12.9716] },
-      { name: 'Hyderabad', value: [78.4867, 17.3850] },
-      { name: 'Ahmedabad', value: [72.5714, 23.0225] },
-      { name: 'Chennai', value: [80.2707, 13.0827] },
-      { name: 'Kolkata', value: [88.3639, 22.5726] },
-      { name: 'Pune', value: [73.8567, 18.5204] },
-      { name: 'Jaipur', value: [75.7873, 26.9124] },
-      { name: 'Lucknow', value: [80.9462, 26.8467] }
-    ];
-
+  
     this.echartsOptions = {
       title: {
         text: 'India Population Estimates',
@@ -46,7 +59,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           fontSize: 24
         },
         padding: [50, 90, 10, 20]
-     },
+      },
       tooltip: {
         trigger: 'item',
         showDelay: 0,
@@ -73,7 +86,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       geo: {
         map: 'India',
-        roam:true,
+        roam: true,
         zoom: 1.2,
         label: {
           show: true,
@@ -109,52 +122,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             show: true,
             color: 'black'
           },
-          data: [
-            { name: 'Uttar Pradesh', value: 199812341 },
-            { name: 'Maharashtra', value: 112374333 },
-            { name: 'Bihar', value: 104099452 },
-            { name: 'West Bengal', value: 91276115 },
-            { name: 'Madhya Pradesh', value: 72626809 },
-            { name: 'Tamil Nadu', value: 72147030 },
-            { name: 'Rajasthan', value: 68548437 },
-            { name: 'Karnataka', value: 61095297 },
-            { name: 'Gujarat', value: 60439692 },
-            { name: 'Andhra Pradesh', value: 49577103 },
-            { name: 'Odisha', value: 41974218 },
-            { name: 'Telangana', value: 35193978 },
-            { name: 'Kerala', value: 33406061 },
-            { name: 'Jharkhand', value: 32988134 },
-            { name: 'Assam', value: 31205576 },
-            { name: 'Punjab', value: 27743338 },
-            { name: 'Chhattisgarh', value: 25545198 },
-            { name: 'Haryana', value: 25351462 },
-            { name: 'Uttarakhand', value: 10086292 },
-            { name: 'Himachal Pradesh', value: 6864602 },
-            { name: 'Tripura', value: 3673917 },
-            { name: 'Meghalaya', value: 2966889 },
-            { name: 'Manipur', value: 2855794 },
-            { name: 'Nagaland', value: 1978502 },
-            { name: 'Goa', value: 1458545 },
-            { name: 'Arunachal Pradesh', value: 1383727 },
-            { name: 'Mizoram', value: 1097206 },
-            { name: 'Sikkim', value: 610577 }
-          ]
+          data: this.stateData
         },
         {
           name: 'Cities',
           type: 'scatter',
           coordinateSystem: 'geo',
-          data: cityData,
-          symbol: 'pin', 
+          data: this.cityData,
+          symbol: 'pin',
           symbolSize: 40,
           itemStyle: {
-            color: 'red'  
+            color: 'red'
           },
           label: {
             formatter: '{b}',
             position: 'left',
             color: 'red',
-            show: true 
+            show: true
           },
           emphasis: {
             label: {
@@ -162,7 +146,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
         }
-      ]
+      ],
     };
   }
 
@@ -172,17 +156,84 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chartInstance = echarts.init(chartDom);
       this.chartInstance.setOption(this.echartsOptions);
 
+      this.chartInstance.on('georoam', this.onGeoRoam);
+
       window.addEventListener('resize', this.resizeHandler);
     }
   }
 
   ngOnDestroy(): void {
+    if (this.chartInstance) {
+      this.chartInstance.off('georoam', this.onGeoRoam);
+    }
     window.removeEventListener('resize', this.resizeHandler);
   }
 
   private resizeHandler = () => {
     if (this.chartInstance) {
       this.chartInstance.resize();
+    }
+  };
+
+  private onGeoRoam = (event: any) => {
+    const zoom = this.chartInstance.getOption().geo[0].zoom;
+    if (zoom > 3) {
+      this.chartInstance.setOption({
+        series: [
+          {
+            name: 'Cities',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: [
+              { name: 'Andheri', value: [72.8362, 19.1197] },
+              { name: 'Borivali', value: [72.8604, 19.2297] }
+            ],
+            symbol: 'pin',
+            symbolSize: 40,
+            itemStyle: {
+              color: 'blue'
+            },
+            label: {
+              formatter: '{b}',
+              position: 'left',
+              color: 'blue',
+              show: true
+            },
+            emphasis: {
+              label: {
+                show: true
+              }
+            }
+          }
+        ]
+      });
+    } else {
+      this.chartInstance.setOption({
+        series: [
+          {
+            name: 'Cities',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: this.cityData,
+            symbol: 'pin',
+            symbolSize: 40,
+            itemStyle: {
+              color: 'red'
+            },
+            label: {
+              formatter: '{b}',
+              position: 'left',
+              color: 'red',
+              show: true
+            },
+            emphasis: {
+              label: {
+                show: true
+              }
+            }
+          }
+        ]
+      });
     }
   };
 
