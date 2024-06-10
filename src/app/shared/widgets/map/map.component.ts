@@ -20,16 +20,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   chartInstance: any;
   mapData: MapData[] = [];
 
+  constructor(private mapService: MapdataService, private userService: UsersService) {
+    this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent];
+  }
+
   stateData: { name: string, value: number }[] = [];
   cityData: { name: string, value: number[], itemStyle: { color: string }, type?: string }[] = [];
   effectScatterCityData: { name: string, value: number[], itemStyle: { color: string }, type?: string }[] = [];
   scatterCityData: { name: string, value: number[], itemStyle: { color: string } }[] = [];
   loggedInUserData: { name: string, value: number[] }[] = [];
-
-
-  constructor(private mapService: MapdataService, private userService: UsersService) {
-    this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent];
-  }
 
   ngOnInit() {
     this.mapData = this.mapService.mapData;
@@ -61,17 +60,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.effectScatterCityData = this.cityData.filter(city => city.type === 'effectScatter');
     this.scatterCityData = this.cityData.filter(city => city.type === 'scatter');
 
-    console.log(this.effectScatterCityData);
-    console.log(this.scatterCityData);
-    
-
     this.loggedInUserData = this.userService.loginUsers.map(user => ({
       name: user.name,
       value: user.coordinates
     }));
 
     //Map Implementation
-
     registerMap('India', indiaJson as any);
 
     this.echartsOptions = {
@@ -161,7 +155,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           symbol: 'pin',
           symbolSize: 30,
           label: {
-            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
+            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, 
             position: 'left',
             color: 'red',
             show: true
@@ -180,7 +174,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           symbol: 'circle',
           symbolSize: 20,
           label: {
-            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
+            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, 
             position: 'left',
             color: 'blue',
             fontSize: 18,
@@ -203,15 +197,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chartInstance.setOption(this.echartsOptions);
 
       this.chartInstance.on('georoam', this.onGeoRoam);
+      this.chartInstance.on('click', this.onChartClick);
+
     }
   }
 
   ngOnDestroy(): void {
     if (this.chartInstance) {
       this.chartInstance.off('georoam', this.onGeoRoam);
+      this.chartInstance.off('click', this.onChartClick);
     }
-    
   }
+
+ 
 
   private onGeoRoam = (event: any) => {
     const zoom = this.chartInstance.getOption().geo[0].zoom;
@@ -262,5 +260,69 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       ]
     };
     this.chartInstance.setOption(updatedOptions);
+  };
+
+  private onChartClick = (params: any) => {
+    if (params.seriesType === 'effectScatter') {
+      const [longitude, latitude] = params.value;
+      this.chartInstance.setOption({
+        geo: {
+          zoom: 4,
+          center: [longitude, latitude]
+        },
+        series: [
+          {
+            name: 'Cities',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: this.loggedInUserData.filter(user => {
+              const [userLongitude, userLatitude] = user.value;
+              return (
+                userLongitude > longitude - 1 &&
+                userLongitude < longitude + 1 &&
+                userLatitude > latitude - 1 &&
+                userLatitude < latitude + 1
+              );
+            }),
+            symbol: 'pin',
+            symbolSize: 20,
+            itemStyle: {
+              color: 'blue'
+            },
+            label: {
+              formatter: '{b}',
+              position: 'left',
+              color: 'blue',
+              show: true
+            },
+            emphasis: {
+              label: {
+                show: true
+              }
+            }
+          },
+          {
+            name: 'Effect Cities',
+            type: 'effectScatter',
+            coordinateSystem: 'geo',
+            data: [],
+            symbol: 'circle',
+            symbolSize: 20,
+            label: {
+              formatter: '{b}',
+              position: 'left',
+              color: 'blue',
+              fontSize: 18,
+              show: true
+            },
+            emphasis: {
+              label: {
+                show: true
+              }
+            }
+          }
+        ]
+      });
+    }
   };
 }
