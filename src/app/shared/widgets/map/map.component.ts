@@ -4,10 +4,8 @@ import { TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent } f
 import * as echarts from 'echarts/core';
 import { registerMap } from 'echarts/core';
 import indiaJson from '../../../../assets/in.json';
-import mahaJson from '../../../../assets/maharashtra_districts.json';
 import { MapData } from 'src/app/interfaces/mapData.interface';
 import { MapdataService } from 'src/app/Services/mapdata.service';
-import { CityService } from 'src/app/Services/city.service';
 import { UsersService } from 'src/app/Services/users.service';
 
 @Component({
@@ -22,13 +20,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   chartInstance: any;
   mapData: MapData[] = [];
 
-  constructor(private mapService: MapdataService, private cityService: CityService, private userService: UsersService) {
+  stateData: { name: string, value: number }[] = [];
+  cityData: { name: string, value: number[], itemStyle: { color: string }, type?: string }[] = [];
+  effectScatterCityData: { name: string, value: number[], itemStyle: { color: string }, type?: string }[] = [];
+  scatterCityData: { name: string, value: number[], itemStyle: { color: string } }[] = [];
+  loggedInUserData: { name: string, value: number[] }[] = [];
+
+
+  constructor(private mapService: MapdataService, private userService: UsersService) {
     this.echartsExtensions = [MapChart, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent];
   }
-
-  stateData: { name: string, value: number }[] = [];
-  cityData: {name: string, value: number[], itemStyle: { color: string }}[] = [];
-  loggedInUserData: { name: string, value: number[] }[] = [];
 
   ngOnInit() {
     this.mapData = this.mapService.mapData;
@@ -54,12 +55,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       name: cityInfo.name,
       value: [...cityInfo.coordinates, cityInfo.count],
       itemStyle: { color: cityInfo.count > 5 ? 'blue' : 'red' },
+      type: cityInfo.count > 5 ? 'effectScatter' : 'scatter'
     }));
+
+    this.effectScatterCityData = this.cityData.filter(city => city.type === 'effectScatter');
+    this.scatterCityData = this.cityData.filter(city => city.type === 'scatter');
+
+    console.log(this.effectScatterCityData);
+    console.log(this.scatterCityData);
+    
 
     this.loggedInUserData = this.userService.loginUsers.map(user => ({
       name: user.name,
       value: user.coordinates
     }));
+
+    //Map Implementation
 
     registerMap('India', indiaJson as any);
 
@@ -80,7 +91,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`,
         itemStyle: {
           color: 'black',
-          fontWidth: 'bold'
+          fontWeight: 'bold'
         }
       },
       visualMap: {
@@ -146,13 +157,33 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           name: 'Cities',
           type: 'scatter',
           coordinateSystem: 'geo',
-          data: this.cityData,
+          data: this.scatterCityData,
           symbol: 'pin',
-          symbolSize: 50,
+          symbolSize: 30,
           label: {
             formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
             position: 'left',
             color: 'red',
+            show: true
+          },
+          emphasis: {
+            label: {
+              show: true
+            }
+          }
+        },
+        {
+          name: 'Effect Cities',
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          data: this.effectScatterCityData,
+          symbol: 'circle',
+          symbolSize: 20,
+          label: {
+            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
+            position: 'left',
+            color: 'blue',
+            fontSize: 18,
             show: true
           },
           emphasis: {
@@ -172,8 +203,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chartInstance.setOption(this.echartsOptions);
 
       this.chartInstance.on('georoam', this.onGeoRoam);
-
-      window.addEventListener('resize', this.resizeHandler);
     }
   }
 
@@ -181,69 +210,57 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.chartInstance) {
       this.chartInstance.off('georoam', this.onGeoRoam);
     }
-    window.removeEventListener('resize', this.resizeHandler);
+    
   }
-
-  private resizeHandler = () => {
-    if (this.chartInstance) {
-      this.chartInstance.resize();
-    }
-  };
 
   private onGeoRoam = (event: any) => {
     const zoom = this.chartInstance.getOption().geo[0].zoom;
-    if (zoom > 3) {
-      this.chartInstance.setOption({
-        series: [
-          {
-            name: 'Cities',
-            type: 'scatter',
-            coordinateSystem: 'geo',
-            data: this.loggedInUserData,
-            symbol: 'pin',
-            symbolSize: 40,
-            itemStyle: {
-              color: 'blue'
-            },
+    const updatedOptions = {
+      series: [
+        {
+          name: 'Cities',
+          type: 'scatter',
+          coordinateSystem: 'geo',
+          data: zoom > 3 ? this.loggedInUserData : this.scatterCityData,
+          symbol: 'pin',
+          symbolSize: zoom > 3 ? 20 : 30,
+          itemStyle: {
+            color: zoom > 3 ? 'blue' : 'red'
+          },
+          label: {
+            formatter: zoom > 3 ? '{b}' : (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, 
+            position: 'left',
+            color: zoom > 3 ? 'blue' : 'red',
+            show: true
+          },
+          emphasis: {
             label: {
-              formatter: '{b}',
-              position: 'left',
-              color: 'blue',
               show: true
-            },
-            emphasis: {
-              label: {
-                show: true
-              }
             }
           }
-        ]
-      });
-    } else {
-      this.chartInstance.setOption({
-        series: [
-          {
-            name: 'Cities',
-            type: 'scatter',
-            coordinateSystem: 'geo',
-            data: this.cityData,
-            symbol: 'pin',
-            symbolSize: 40,
+        },
+        {
+          name: 'Effect Cities',
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          data: zoom > 3 ? [] : this.effectScatterCityData, 
+          symbol: 'circle',
+          symbolSize: 20,
+          label: {
+            formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, 
+            position: 'left',
+            color: 'blue',
+            fontSize: 18,
+            show: true
+          },
+          emphasis: {
             label: {
-              formatter: (params: { name: any; value: any[]; }) => `${params.name}: ${params.value[2]}`, // Display city name and count
-              position: 'left',
-              color: 'red',
               show: true
-            },
-            emphasis: {
-              label: {
-                show: true
-              }
             }
           }
-        ]
-      });
-    }
+        }
+      ]
+    };
+    this.chartInstance.setOption(updatedOptions);
   };
-
 }
