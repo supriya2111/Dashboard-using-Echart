@@ -198,7 +198,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.chartInstance.on('georoam', this.onGeoRoam);
       this.chartInstance.on('click', this.onChartClick);
-
     }
   }
 
@@ -208,8 +207,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chartInstance.off('click', this.onChartClick);
     }
   }
-
- 
 
   private onGeoRoam = (event: any) => {
     const zoom = this.chartInstance.getOption().geo[0].zoom;
@@ -263,7 +260,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   private onChartClick = (params: any) => {
-    if (params.seriesType === 'effectScatter') {
+    if (params.seriesType === 'scatter' || params.seriesType === 'effectScatter') {
       const [longitude, latitude] = params.value;
       this.chartInstance.setOption({
         geo: {
